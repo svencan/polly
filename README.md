@@ -75,7 +75,7 @@ Example:
 {
     "id": "lk16-2",
     "url": "baseurl/event/lk16-2",
-    "timestamp": 1470247500",
+    "timestamp": "1470247500",
     "title": {
         "short": "LK16-2",
         "long": "Uerdentlechen Landeskongress 2016-2"
@@ -116,11 +116,11 @@ Example:
 {
     "id": "lk16-2/säa1",
     "url": "baseurl/event/lk16-2/question/säa1",
+    "timestamp": "1470247500",
     "title": {
         "short": "SÄA1 Prokuratiounen",
         "long": "SÄA1: Prokuratioune sinn doof"
     },
-    ""
     "vote": [
         "baseurl/event/lk16-2/question/säa1/vote/emma",
         "baseurl/event/lk16-2/question/säa1/vote/mary"
