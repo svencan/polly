@@ -4,7 +4,7 @@
 
 Meet namesake Polly: http://www.nichtlustig.de/toondb/020302.html
 
-## Persistenceee
+## Persistence
 
 Data is persisted in JSON files.
 
