@@ -1,6 +1,6 @@
-# polly-core
+# polly
 
-**polly-core** is a minimal remote voting system.
+**polly** is a minimal remote voting system.
 
 Meet namesake Polly: http://www.nichtlustig.de/toondb/020302.html
 
