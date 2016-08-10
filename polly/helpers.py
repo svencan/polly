@@ -1,27 +1,24 @@
 import os
-import json
 import polly.core
-
-from json import JSONEncoder
 
 def touch_directory(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
 def get_latest_file(path, name):
-    
+    versions = []
     files = os.listdir(path)
-    
+
     for file in files:
-        print(file + '\n')
-    
+        parts = file.split('_')
+        if parts[0] == name and len(parts) == 2:
+            versions.append(float(parts[1]))
+
+    file = path + name + '_' + str(max(versions))
+    return file
+
+def json_encode(o):
     pass
 
-class MyEncoder(JSONEncoder):
-    def default(self, o):
-        return o.__dict__
-    
-def json_encode(o):
-    print(json.dumps(o, cls=MyEncoder))
-    return json.dumps(o, cls=MyEncoder)
-    
+def json_decode(json):
+    pass

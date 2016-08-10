@@ -30,7 +30,6 @@ class Event(Timestamped):
     def persist(self):
         helpers.touch_directory(self.url)
         file = open(self.url + '/description_' + str(self.timestamp), 'w')
-        
         file.write(helpers.json_encode(self))
         file.close()
     
@@ -44,4 +43,6 @@ class Event(Timestamped):
     def get_latest(id):
         path = MAIN_PATH + 'event/' + id + '/'
         filename = 'description'
-        file = helpers.get_latest_file(path, filename)
+        file = open(helpers.get_latest_file(path, filename), 'r')
+        json = file.read()
+        return helpers.json_decode(json)
