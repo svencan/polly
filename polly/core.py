@@ -45,4 +45,5 @@ class Event(Timestamped):
         filename = 'description'
         file = open(helpers.get_latest_file(path, filename), 'r')
         json = file.read()
+        file.close()
         return helpers.json_decode(json)

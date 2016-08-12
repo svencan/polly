@@ -1,5 +1,6 @@
 import os
 import polly.core
+import jsonpickle
 
 def touch_directory(path):
     if not os.path.exists(path):
@@ -18,7 +19,7 @@ def get_latest_file(path, name):
     return file
 
 def json_encode(o):
-    pass
+    return jsonpickle.encode(o)
 
 def json_decode(json):
-    pass
+    return jsonpickle.decode(json)

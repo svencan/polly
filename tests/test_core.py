@@ -2,11 +2,21 @@ import unittest
 import os
 import sys
 import time
+import shutil
 
 sys.path.insert(0, os.path.abspath('..')) # import intuitively
 from polly import core
 
 class TestClasses(unittest.TestCase):
+
+    def setUp(self):
+        self.delete_afterwards = True
+        core.MAIN_PATH = '../testdata-' + str(time.time()) + '/'
+    
+    def tearDown(self):
+        '''Delete testdata folder'''
+        if (self.delete_afterwards):
+            shutil.rmtree(core.MAIN_PATH, ignore_errors=True)
 
     def test_identified(self):
         path       = 'event/'
@@ -38,8 +48,9 @@ class TestClasses(unittest.TestCase):
         short = 'LK16-1'
         long  = 'Landeskongress'
         event1 = core.Event(id, short, long)
-        event2 = core.Event(id, short, long)
         event1.persist()
+        time.sleep(1)
+        event2 = core.Event(id, 'LK16--1', long)
         event2.persist()
         latest = core.Event.get_latest(id)
 
