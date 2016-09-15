@@ -114,7 +114,7 @@ Example:
 Example:
 ```json
 {
-    "id": "lk16-2/säa1",
+    "id": "lk16-2/question/säa1",
     "url": "baseurl/event/lk16-2/question/säa1",
     "timestamp": "1470247500",
     "title": {

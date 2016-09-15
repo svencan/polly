@@ -6,6 +6,9 @@ def touch_directory(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
+def check_directory(path):
+    return os.path.exists(path)
+
 def get_latest_file(path, name):
     versions = []
     files = os.listdir(path)
