@@ -2,13 +2,14 @@ import time
 import os
 
 from polly import helpers
+from polly import errors
 
 MAIN_PATH = '../data/' # Folder to store data
 
 class Identified:
     def __init__(self, path, id):
         if (path.strip() == '' or id.strip() == ''):
-            raise EmptyError('path and id must not be empty')
+            raise errors.EmptyError('path and id must not be empty')
         
         self.url = path + id
         self.id = id
@@ -64,7 +65,7 @@ class Question(Timestamped):
         event_exists = helpers.check_directory('/'.join(event_path))
         
         if (event_exists == False):
-            raise NotFoundError('Event does not exists')
+            raise errors.NotFoundError('Event does not exists')
         
         helpers.touch_directory(self.url)
         file = open(self.url + '/description_' + str(self.timestamp), 'w')
@@ -74,7 +75,8 @@ class Question(Timestamped):
     def get_votes():
         pass
     
-    def get_openings
+    def get_openings():
+        pass
     
     @staticmethod
     def get_latest(id):
@@ -84,19 +86,3 @@ class Question(Timestamped):
         json = file.read()
         file.close()
         return helpers.json_decode(json)
-        
-class Error(Exception):
-    '''General error'''
-    pass
-    
-class NotFoundError(Error):
-    '''Exception raised for inexistent objects'''
-    def __init__(self, message):
-        '''self.expression = expression'''
-        self.message = message
-
-class EmptyError(Error):
-    '''Exception raised for invalid empty values'''
-    def __init__(self, message):
-        '''self.expression = expression'''
-        self.message = message

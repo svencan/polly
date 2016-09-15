@@ -6,6 +6,7 @@ import shutil
 
 sys.path.insert(0, os.path.abspath('..')) # import intuitively
 from polly import core
+from polly import errors
 
 class TestClasses(unittest.TestCase):
 
@@ -23,7 +24,7 @@ class TestClasses(unittest.TestCase):
         id         = 'lk161'
         identified = core.Identified(path, id)
         
-        self.assertRaises(core.EmptyError, core.Identified, '', '')
+        self.assertRaises(errors.EmptyError, core.Identified, '', '')
         self.assertEqual(identified.url, path + id)
         self.assertEqual(identified.id, id)
     
@@ -84,7 +85,7 @@ class TestClasses(unittest.TestCase):
         q_long  = 'SÄA 1: Prokuratiounen sinn cool!'
         question = core.Question(q_id, q_short, q_long)
         
-        self.assertRaises(core.NotFoundError, question.persist)
+        self.assertRaises(errors.NotFoundError, question.persist)
         
         
 if __name__ == '__main__':
