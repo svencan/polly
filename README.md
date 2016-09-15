@@ -105,8 +105,6 @@ Example:
 }
 ```
 
-...
-
 ### Question: `baseurl/event/event-id/question/question-id`
 
 `GET` returns the description of question, its opening times (if any), and its votes (if any) and an additional votecount (calculated).
@@ -140,7 +138,7 @@ Example:
 }
 ```
 
-### Member: `baseurl/member/member-id`
+### Members: `baseurl/member`
 
 `GET` returns members.
 
@@ -155,7 +153,22 @@ Example:
 }
 ```
 
-`POST` creates a new folder (if inexistent) and timestamped description file in that folder.
+### Member: `baseurl/member/member-id`
+
+`GET` returns the latest member file
+
+Example:
+```json
+{
+    "id": "emma",
+    "title": {
+        "short": "emma",
+        "long": "Emma Schmit"
+    }
+}
+```
+
+`POST` creates a new timestamped member file in that folder.
 
 Example:
 `POST baseurl/member/emma`
