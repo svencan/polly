@@ -91,7 +91,7 @@ Example:
 }
 ```
 
-`POST` creates a new folder and timestamped description file in that folder.
+`POST` creates a new folder (if inexistent) and timestamped description file in that folder.
 
 Example:
 `POST baseurl/event/lk16-2`
@@ -109,7 +109,9 @@ Example:
 
 ### Question: `baseurl/event/event-id/question/question-id`
 
-`GET` returns the description of question, its opening times (if any), and its votes (if any).
+`GET` returns the description of question, its opening times (if any), and its votes (if any) and an additional votecount (calculated).
+
+TBD: Only aye/nay/abstention as options?
 
 Example:
 ```json
@@ -121,13 +123,48 @@ Example:
         "short": "SÄA1 Prokuratiounen",
         "long": "SÄA1: Prokuratioune sinn doof"
     },
+    "opening": [
+        "baseurl/event/lk16-2/question/säa1/opening",
+        "baseurl/event/lk16-2/question/säa1/closure",
+    ],
     "vote": [
         "baseurl/event/lk16-2/question/säa1/vote/emma",
         "baseurl/event/lk16-2/question/säa1/vote/mary"
     ],
-    "opening": [
-        "baseurl/event/lk16-2/question/säa1/opening",
-        "baseurl/event/lk16-2/question/säa1/closure",
+    "votecount": {
+        "votes": 2,
+        "aye": 1,
+        "nay": 1,
+        "abstention": 0
+    }
+}
+```
+
+### Member: `baseurl/member/member-id`
+
+`GET` returns members.
+
+Example:
+```json
+{
+    "count": "2",
+    "members": [
+        "baseurl/member/emma",
+        "baseurl/member/mary"
     ]
+}
+```
+
+`POST` creates a new folder (if inexistent) and timestamped description file in that folder.
+
+Example:
+`POST baseurl/member/emma`
+```json
+{
+    "id": "emma",
+    "title": {
+        "short": "emma",
+        "long": "Emma Müller"
+    }
 }
 ```

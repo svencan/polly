@@ -15,11 +15,23 @@ def get_latest_file(path, name):
 
     for file in files:
         parts = file.split('_')
-        if parts[0] == name and len(parts) == 2:
+        if (parts[0] == name and len(parts) == 2):
             versions.append(float(parts[1]))
 
     file = path + name + '_' + str(max(versions))
     return file
+
+def get_names(path):
+    ''' Returns distinct set of timestamped filenames without the timestamp'''
+    files = os.listdir(path)
+    names = set()
+    
+    for file in files:
+        parts = file.split('_')
+        if (len(parts) == 2) and (not parts[0] in names):
+            names.add(parts[0])
+    
+    return names
 
 def json_encode(o):
     return jsonpickle.encode(o)

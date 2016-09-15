@@ -86,3 +86,23 @@ class Question(Timestamped):
         json = file.read()
         file.close()
         return helpers.json_decode(json)
+        
+class Member(Timestamped):
+    def __init__(self, id, short_title, long_title):
+        super().__init__(MAIN_PATH + 'member/', id)
+        self.title = Title(short_title, long_title)
+    
+    def persist(self):
+        helpers.touch_directory(MAIN_PATH + 'member/')
+        file = open(self.url + '_' + str(self.timestamp), 'w')
+        file.write(helpers.json_encode(self))
+        file.close()
+    
+    @staticmethod
+    def get_latest(id):
+        path = MAIN_PATH + 'member/'
+        filename = id
+        file = open(helpers.get_latest_file(path, filename), 'r')
+        json = file.read()
+        file.close()
+        return helpers.json_decode(json)

@@ -7,11 +7,12 @@ import shutil
 sys.path.insert(0, os.path.abspath('..')) # import intuitively
 from polly import core
 from polly import errors
+from polly import helpers
 
 class TestClasses(unittest.TestCase):
 
     def setUp(self):
-        self.delete_afterwards = True
+        self.delete_afterwards = False
         core.MAIN_PATH = '../testdata-' + str(time.time()) + '/'
     
     def tearDown(self):
@@ -61,10 +62,10 @@ class TestClasses(unittest.TestCase):
         self.assertEqual(event2.url, latest.url)
         
     def test_question(self):
-        id    = 'lk161'
-        short = 'LK16-1'
-        long  = 'Landeskongress'
-        event1 = core.Event(id, short, long)
+        e_id    = 'lk161'
+        e_short = 'LK16-1'
+        e_long  = 'Landeskongress'
+        event1 = core.Event(e_id, e_short, e_long)
         event1.persist()
     
         q_id    = 'lk161/question/säa1'
@@ -87,6 +88,40 @@ class TestClasses(unittest.TestCase):
         
         self.assertRaises(errors.NotFoundError, question.persist)
         
+    def test_member_latest(self):
+        id    = 'emma'
+        short = 'emma'
+        long  = 'Emma Johnson'
+        member = core.Member(id, short, long)
+        member.persist()
+        
+        long2 = 'Emma Johnson-Johnson'
+        member = core.Member(id, short, long2)
+        member.persist()
+        
+        core.Member.get_latest(id);
+        self.assertEqual(member.id, id)
+        self.assertEqual(member.title.short, short)
+        self.assertEqual(member.title.long, long2)
+        
+    def test_get_names(self):
+        id    = 'emma'
+        short = 'emma'
+        long  = 'Emma Johnson'
+        member = core.Member(id, short, long)
+        member.persist()
+        
+        long2 = 'Emma Johnson-Johnson'
+        member = core.Member(id, short, long2)
+        member.persist()
+        
+        idB    = 'mary'
+        shortB = 'mary'
+        longB  = 'Bloody Mary'
+        memberB = core.Member(idB, shortB, longB)
+        memberB.persist()
+        
+        self.assertEqual(helpers.get_names(core.MAIN_PATH + 'member'), {'mary', 'emma'})
         
 if __name__ == '__main__':
     unittest.main()
