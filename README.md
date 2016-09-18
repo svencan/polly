@@ -20,6 +20,9 @@ Files are always appended by the timestamp of creation, e.g. `emma_1470245559`. 
       - question/ 
         - säa1/
           - vote/
+            - emma_1470247700
+            - emma_1470247100
+            - mary_1470247150
           - opening_1470247500
           - closure_1470247800
         - säa2/
@@ -146,7 +149,7 @@ Example:
 ```json
 {
     "count": "2",
-    "members": [
+    "member": [
         "baseurl/member/emma",
         "baseurl/member/mary"
     ]

@@ -13,3 +13,8 @@ class EmptyError(Error):
     '''Exception raised for invalid empty values'''
     def __init__(self, message):
         super().__init__(message)
+        
+class InvalidValueError(Error):
+    '''Exception raised for invalid values'''
+    def __init__(self, message):
+        super().__init__(message)
