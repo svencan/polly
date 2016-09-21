@@ -52,6 +52,64 @@ class Event(Timestamped):
         file.close()
         return helpers.json_decode(json)
 
+class Opening(Timestamped):
+    def __init__(self, id):
+        super().__init__(MAIN_PATH + 'event/', id)
+    
+    def persist(self):
+        url_parts = self.url.split('/')
+        question_path = url_parts[:-1 or None]
+        question_exists = helpers.check_directory('/'.join(question_path))
+        
+        if (question_exists == False):
+            raise errors.NotFoundError('Question does not exists')
+        
+        # Check opening and closure consistency
+        id_parts = self.id.split('/')
+        self.type = id_parts[-1]
+        
+        latest_opening_url = (('/'.join(id_parts[:-1])) + '/opening')
+        latest_opening = Opening.get_latest(latest_opening_url)
+        latest_closure_url = (('/'.join(id_parts[:-1])) + '/closure')
+        latest_closure = Opening.get_latest(latest_closure_url)
+        
+        if (self.type == 'closure'):
+            if (latest_closure != None and latest_closure.timestamp > latest_opening.timestamp):
+                raise errors.InvalidValueError('Question is already closed')
+                
+            if (latest_opening == None):
+                raise errors.InvalidValueError('Question is not open')
+        
+        if (self.type == 'opening'):
+            if (latest_closure != None and latest_opening > latest_closure):
+                raise errors.InvalidValueError('Question is already open')
+            
+            if (latest_opening != None):
+                raise errors.InvalidValueError('Question is already open')
+        
+        # TODO: Check if opening after closure is allowed (config)?
+        
+        file = open(self.url + '_' + str(self.timestamp), 'w')
+        file.write(helpers.json_encode(self))
+        file.close()
+    
+    @staticmethod
+    def get_latest(id):
+        id_parts = id.split('/')
+        type = id_parts[-1]
+        question_id = '/'.join(id_parts[:-1])
+    
+        path = MAIN_PATH + 'event/' + question_id
+        latest = helpers.get_latest_file(path + '/', type)
+        if (latest == None):
+            return latest
+        
+        file = open(latest, 'r')
+        json = file.read()
+        file.close()
+        
+        return helpers.json_decode(json)
+        
 class Question(Timestamped):
     def __init__(self, id, short_title, long_title):
         super().__init__(MAIN_PATH + 'event/', id)
@@ -90,15 +148,18 @@ class Question(Timestamped):
         vote_path = question.url + '/vote'
         vote_names = helpers.get_names(vote_path)
         vote_count = {'aye': 0, 'nay': 0, 'abstention': 0, 'total': 0}
+        votes = []
         
         for vote in vote_names:
             vote_parts = vote.split('/')
             vote_id = vote_parts[-1]
+            votes.append(vote_id)
             vote = Vote.get_latest(question.id, vote_id)
             vote_count[vote.vote] += 1
             vote_count['total'] += 1
         
         question.votecount = vote_count
+        question.vote = votes
         
         return question
         

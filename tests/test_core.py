@@ -230,6 +230,44 @@ class TestClasses(unittest.TestCase):
         self.assertEqual(question.votecount['aye'], 1)
         self.assertEqual(question.votecount['nay'], 2)
         self.assertEqual(question.votecount['abstention'], 0)
+        self.assertEqual(set(question.vote), {"mary", "emma", "nemo"})
         
+    def test_question_opening_closure(self):
+        e_id    = 'lk161'
+        e_short = 'LK16-1'
+        e_long  = 'Landeskongress'
+        event1 = core.Event(e_id, e_short, e_long)
+        event1.persist()
+    
+        q_id    = 'lk161/question/säa1'
+        q_short = 'SÄA1: Prokuratiounen'
+        q_long  = 'SÄA 1: Prokuratiounen sinn doof'
+        question = core.Question(q_id, q_short, q_long)
+        question.persist()
+        
+        # Opening an inexistent question should raise an error
+        error_opening = core.Opening('lk161/question/säa5/opening')
+        self.assertRaises(errors.NotFoundError, error_opening.persist)
+        
+        # Closing a question that has not been opened should raise an error
+        error_closure = core.Opening('lk161/question/säa1/closure')
+        self.assertRaises(errors.InvalidValueError, error_closure.persist)
+        
+        opening = core.Opening('lk161/question/säa1/opening')
+        opening.persist()
+        
+        # Opening an opened question should raise an error
+        error_opening = core.Opening('lk161/question/säa1/opening')
+        self.assertRaises(errors.InvalidValueError, error_opening.persist)
+        
+        closure = core.Opening('lk161/question/säa1/closure')
+        closure.persist()
+        
+        # Closing a closed question should raise an error
+        error_closure = core.Opening('lk161/question/säa1/closure')
+        self.assertRaises(errors.InvalidValueError, error_closure.persist)
+        
+        
+    
 if __name__ == '__main__':
     unittest.main()

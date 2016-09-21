@@ -12,12 +12,15 @@ def check_directory(path):
 def get_latest_file(path, name):
     versions = []
     files = os.listdir(path)
-
+    
     for file in files:
         parts = file.split('_')
         if (parts[0] == name and len(parts) == 2):
             versions.append(float(parts[1]))
-
+    
+    if (not versions):
+        return None
+    
     file = path + name + '_' + str(max(versions))
     return file
 
