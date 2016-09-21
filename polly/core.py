@@ -145,6 +145,8 @@ class Question(Timestamped):
         file.close()
         
         question = helpers.json_decode(json)
+        
+        # Get vote and votecount
         vote_path = question.url + '/vote'
         vote_names = helpers.get_names(vote_path)
         vote_count = {'aye': 0, 'nay': 0, 'abstention': 0, 'total': 0}
@@ -160,6 +162,21 @@ class Question(Timestamped):
         
         question.votecount = vote_count
         question.vote = votes
+        
+        # Get open
+        latest_opening_url = (id + '/opening')
+        latest_opening = Opening.get_latest(latest_opening_url)
+        latest_closure_url = (id + '/closure')
+        latest_closure = Opening.get_latest(latest_closure_url)
+        
+        if (latest_opening == None):
+            question.open = False
+        elif (latest_closure == None):
+            question.open = True
+        elif (latest_opening != None and latest_open.timestamp > latest_closure.timestamp):
+            question.open = True
+        else:
+            question.open = False
         
         return question
         

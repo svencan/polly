@@ -26,6 +26,9 @@ def get_latest_file(path, name):
 
 def get_names(path):
     ''' Returns distinct set of timestamped filenames without the timestamp'''
+    if not os.path.exists(path):
+        return []
+    
     files = os.listdir(path)
     names = set()
     

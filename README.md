@@ -110,7 +110,7 @@ Example:
 
 ### Question: `baseurl/event/event-id/question/question-id`
 
-`GET` returns the description of question, its opening times (if any), and its votes (if any) and an additional votecount (calculated).
+`GET` returns the description of question, its opening times (if any), whether it is open (calculated), and its votes (if any) and an additional votecount (calculated).
 
 TBD: Only aye/nay/abstention as options?
 
@@ -124,6 +124,7 @@ Example:
         "short": "SÄA1 Prokuratiounen",
         "long": "SÄA1: Prokuratioune sinn doof"
     },
+    "open": true,
     "opening": [
         "baseurl/event/lk16-2/question/säa1/opening",
         "baseurl/event/lk16-2/question/säa1/closure",
@@ -138,6 +139,24 @@ Example:
         "nay": 1,
         "abstention": 0
     }
+}
+```
+
+### Opening: `baseurl/event/event-id/question/question-id/opening-type`
+
+`POST` creates a new timestamped opening or closure (depending on opening-type) in the question.
+
+Example 1:
+```json
+{
+    "type": "opening",
+}
+```
+
+Example 2:
+```json
+{
+    "type": "opening",
 }
 ```
 
