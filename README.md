@@ -27,12 +27,9 @@ Files are always appended by the timestamp of creation, e.g. `emma_1470245559`. 
           - closure_1470247800
         - säa2/
       - accreditation/
-        - in/
-          - emma_1470247600
-          - emma_1470247000
-          - mary_1470247000
-        - out/
-          - emma_1470247300
+        - emma_1470247600
+        - emma_1470247000
+        - mary_1470247000
     - lk17-1/
     - lk17-2/
   - member/
