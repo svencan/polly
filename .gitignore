@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 # Custom
+.idea
 data/
 testdata-*
 polly/__pycache__/
