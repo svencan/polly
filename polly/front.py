@@ -1,13 +1,16 @@
 from wsgiref.util import setup_testing_defaults
 from wsgiref.simple_server import make_server
 
+import helpers
+import core
+import errors
 
 class Handler:
     def __call__(self, method, route_args, data):
         if method == 'GET':
-            self.get(route_args)
+            return self.get(route_args)
         elif method == 'POST':
-            self.post(route_args, data)
+            return self.post(route_args, data)
 
 
 class PageHandler(Handler):
@@ -16,7 +19,8 @@ class PageHandler(Handler):
 
 class EventHandler(Handler):
     def get(self, route_args):
-        pass
+        event = core.Event.get_latest(route_args['event_id'])
+        return helpers.json_encode(event)
 
     def post(self, route_args, data):
         pass
@@ -38,7 +42,7 @@ class QuestionHandler(Handler):
         pass
 
 
-def match(url, method, data):
+def match(url, method):
 
     routes = [
         ('', PageHandler),
@@ -68,23 +72,16 @@ def match(url, method, data):
             else:
                 break
         else:
-            break;
+            break
     else:
         print('NO MATCH')
         exit()
 
-    print('MATCH')
-    print(route)
-    print(route_args)
+    return (route[1](), route_args)
 
 
 def front(environ, start_response):
     setup_testing_defaults(environ)
-
-    status = '200 OK'
-    headers = [('Content-type', 'application/json')]
-
-    start_response(status, headers)
 
     url = environ['PATH_INFO']
     url_parts = url.strip('/').split('/')
@@ -92,9 +89,17 @@ def front(environ, start_response):
 
     data = '{}'
 
-    match(url.strip('/'), method, data)
+    matched = match(url.strip('/'), method)
+    handler = matched[0]
+    route_args = matched[1]
 
-    return []
+    result = handler(method, route_args, data)
+
+    status = '200 OK'
+    headers = [('Content-type', 'application/json')]
+
+    start_response(status, headers)
+    return [result.encode('utf-8')]
 
 httpd = make_server('', 8000, front)
 print("Serving on port 8000...")

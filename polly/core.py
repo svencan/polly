@@ -1,9 +1,9 @@
 import time
 
-from polly import helpers
-from polly import errors
+import helpers
+import errors
 
-MAIN_PATH = '../data/'  # Folder to store data
+MAIN_PATH = 'data/'  # Folder to store data
 
 
 class Identified:
