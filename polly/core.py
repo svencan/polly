@@ -135,12 +135,6 @@ class Question(Timestamped):
         file.write(helpers.json_encode(self))
         file.close()
     
-    def get_votes(self):
-        pass
-    
-    def get_openings(self):
-        pass
-    
     @staticmethod
     def get_latest(id):
         path = MAIN_PATH + 'event/' + id + '/'
@@ -148,11 +142,10 @@ class Question(Timestamped):
         file = open(helpers.get_latest_file(path, filename), 'r')
         json = file.read()
         file.close()
-        
         question = helpers.json_decode(json)
-        
+
         # Get vote and votecount
-        vote_path = question.url + '/vote'
+        vote_path = question['url'] + '/vote'
         vote_names = helpers.get_names(vote_path)
         vote_count = {'aye': 0, 'nay': 0, 'abstention': 0, 'total': 0}
         votes = []
@@ -165,8 +158,8 @@ class Question(Timestamped):
             vote_count[vote.vote] += 1
             vote_count['total'] += 1
         
-        question.votecount = vote_count
-        question.vote = votes
+        question['votecount'] = vote_count
+        question['vote'] = votes
         
         # Get open
         latest_opening_url = (id + '/opening')
@@ -175,13 +168,13 @@ class Question(Timestamped):
         latest_closure = Opening.get_latest(latest_closure_url)
         
         if latest_opening is None:
-            question.open = False
+            question['open'] = False
         elif latest_closure is None:
-            question.open = True
+            question['open'] = True
         elif latest_opening is not None and latest_opening.timestamp > latest_closure.timestamp:
-            question.open = True
+            question['open'] = True
         else:
-            question.open = False
+            question['open'] = False
         
         return question
 

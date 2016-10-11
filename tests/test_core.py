@@ -4,7 +4,7 @@ import sys
 import time
 import shutil
 
-sys.path.insert(0, os.path.abspath('..'))  # import intuitively
+#sys.path.insert(0, os.path.abspath('..'))  # import intuitively
 from polly import core
 from polly import errors
 from polly import helpers
@@ -69,9 +69,9 @@ class TestClasses(unittest.TestCase):
         event1 = core.Event(e_id, e_short, e_long)
         event1.persist()
     
-        q_id = 'lk161/question/säa1'
-        q_short = 'SÄA1: Prokuratiounen'
-        q_long = 'SÄA 1: Prokuratiounen sinn doof'
+        q_id = 'lk161/question/saa1'
+        q_short = 'SaA1: Prokuratiounen'
+        q_long = 'SaA 1: Prokuratiounen sinn doof'
         question = core.Question(q_id, q_short, q_long)
         question.persist()
         
@@ -82,9 +82,9 @@ class TestClasses(unittest.TestCase):
         self.assertEqual(question.opening, [])
         
     def test_question_inexistent_event(self):
-        q_id = 'lk121/question/säa1'
-        q_short = 'SÄA1: Prokuratiounen'
-        q_long = 'SÄA 1: Prokuratiounen sinn cool!'
+        q_id = 'lk121/question/saa1'
+        q_short = 'SaA1: Prokuratiounen'
+        q_long = 'SaA 1: Prokuratiounen sinn cool!'
         question = core.Question(q_id, q_short, q_long)
         
         self.assertRaises(errors.NotFoundError, question.persist)
@@ -127,7 +127,7 @@ class TestClasses(unittest.TestCase):
     def test_vote_inexistent_parents(self):
         vote = 'aye'
         event_id = 'lk997'
-        question_id = 'päa45'
+        question_id = 'paa45'
         member_id = 'jhemp'
         
         self.assertRaises(errors.NotFoundError, core.Vote, event_id, question_id, member_id, vote)
@@ -139,9 +139,9 @@ class TestClasses(unittest.TestCase):
         event1 = core.Event(e_id, e_short, e_long)
         event1.persist()
     
-        q_id = 'lk161/question/säa1'
-        q_short = 'SÄA1: Prokuratiounen'
-        q_long = 'SÄA 1: Prokuratiounen sinn doof'
+        q_id = 'lk161/question/saa1'
+        q_short = 'SaA1: Prokuratiounen'
+        q_long = 'SaA 1: Prokuratiounen sinn doof'
         question = core.Question(q_id, q_short, q_long)
         question.persist()
         
@@ -162,9 +162,9 @@ class TestClasses(unittest.TestCase):
         event1 = core.Event(e_id, e_short, e_long)
         event1.persist()
     
-        q_id = 'lk161/question/säa1'
-        q_short = 'SÄA1: Prokuratiounen'
-        q_long = 'SÄA 1: Prokuratiounen sinn doof'
+        q_id = 'lk161/question/saa1'
+        q_short = 'SaA1: Prokuratiounen'
+        q_long = 'SaA 1: Prokuratiounen sinn doof'
         question = core.Question(q_id, q_short, q_long)
         question.persist()
         
@@ -192,9 +192,9 @@ class TestClasses(unittest.TestCase):
         event1 = core.Event(e_id, e_short, e_long)
         event1.persist()
     
-        q_id = 'lk161/question/säa1'
-        q_short = 'SÄA1: Prokuratiounen'
-        q_long = 'SÄA 1: Prokuratiounen sinn doof'
+        q_id = 'lk161/question/saa1'
+        q_short = 'SaA1: Prokuratiounen'
+        q_long = 'SaA 1: Prokuratiounen sinn doof'
         question = core.Question(q_id, q_short, q_long)
         question.persist()
         
@@ -240,32 +240,31 @@ class TestClasses(unittest.TestCase):
         event1 = core.Event(e_id, e_short, e_long)
         event1.persist()
     
-        q_id = 'lk161/question/säa1'
-        q_short = 'SÄA1: Prokuratiounen'
-        q_long = 'SÄA 1: Prokuratiounen sinn doof'
+        q_id = 'lk161/question/saa1'
+        q_short = 'SaA1: Prokuratiounen'
+        q_long = 'SaA 1: Prokuratiounen sinn doof'
         question = core.Question(q_id, q_short, q_long)
         question.persist()
         
         # Opening an inexistent question should raise an error
-        error_opening = core.Opening('lk161/question/säa5/opening')
+        error_opening = core.Opening('lk161/question/saa5/opening')
         self.assertRaises(errors.NotFoundError, error_opening.persist)
         
         # Closing a question that has not been opened should raise an error
-        error_closure = core.Opening('lk161/question/säa1/closure')
+        error_closure = core.Opening('lk161/question/saa1/closure')
         self.assertRaises(errors.InvalidValueError, error_closure.persist)
         
-        opening = core.Opening('lk161/question/säa1/opening')
+        opening = core.Opening('lk161/question/saa1/opening')
         opening.persist()
         
         # Opening an opened question should raise an error
-        error_opening = core.Opening('lk161/question/säa1/opening')
+        error_opening = core.Opening('lk161/question/saa1/opening')
         self.assertRaises(errors.InvalidValueError, error_opening.persist)
         
-        closure = core.Opening('lk161/question/säa1/closure')
+        closure = core.Opening('lk161/question/saa1/closure')
         closure.persist()
         
         # Closing a closed question should raise an error
-        error_closure = core.Opening('lk161/question/säa1/closure')
         self.assertRaises(errors.InvalidValueError, error_closure.persist)
 
     def test_accreditation(self):

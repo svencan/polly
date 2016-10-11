@@ -36,7 +36,8 @@ class AccreditationHandler(Handler):
 
 class QuestionHandler(Handler):
     def get(self, route_args):
-        pass
+        question = core.Question.get_latest(route_args['event_id'] + '/question/' + route_args['question_id'])
+        return helpers.json_encode(question)
 
     def post(self, route_args, data):
         pass
